@@ -1,4 +1,4 @@
-Suggests a design guideline for Config/Option structs serialized to YAML.
+Suggests a design guideline for Config/Option structs.
 
 ```go
 type Options struct {
