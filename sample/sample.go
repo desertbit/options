@@ -4,7 +4,6 @@
  * The MIT License (MIT)
  *
  * Copyright (c) 2020 Sebastian Borchers <sebastian[at]desertbit.com>
- * Copyright (c) 2020 Roland Singer <roland.singer[at]desertbit.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -77,6 +76,26 @@ func main() {
 	}
 
 	data, err := yaml.Marshal(o)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%s\n", string(data))
+
+	// Now set every field with a zero value to its default counterpart.
+	// Every field that is set here will not have its default value.
+	o = Options{
+		I:  5,
+		IS: []int{-1},
+		NO: NestedOptions{F: 0.666},
+	}
+
+	err = options.SetDefaults(&o, DefaultOptions())
+	if err != nil {
+		panic(err)
+	}
+
+	data, err = yaml.Marshal(o)
 	if err != nil {
 		panic(err)
 	}
