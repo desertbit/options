@@ -1,5 +1,5 @@
 /*
- * ORBIT - Interlink Remote Applications
+ * Options
  *
  * The MIT License (MIT)
  *
@@ -31,6 +31,9 @@ import (
 	"reflect"
 )
 
+// SetDefaults sets every field of the struct pointer v to the value
+// of the same field in the struct def, if the field has a zero value.
+// v and def must denote the same struct.
 func SetDefaults(v, def interface{}) (err error) {
 	// Ensure the type of v is a struct pointer.
 	vType := reflect.TypeOf(v)
@@ -56,6 +59,8 @@ func SetDefaults(v, def interface{}) (err error) {
 	return setStruct(vVal, reflect.ValueOf(def))
 }
 
+// setStruct is a helper method for SetDefaults(), allowing to recursively
+// handle struct fields.
 func setStruct(vStr, defStr reflect.Value) (err error) {
 	// Recursively compare the structs.
 	for i := 0; i < vStr.NumField(); i++ {

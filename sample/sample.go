@@ -1,5 +1,5 @@
 /*
- * ORBIT - Interlink Remote Applications
+ * Options
  *
  * The MIT License (MIT)
  *
