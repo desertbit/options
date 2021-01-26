@@ -51,6 +51,8 @@ type Options struct {
 	NO NestedOptions `yaml:"no,omitempty"`
 
 	NestedInlineOptions `yaml:",inline,omitempty"`
+
+	PointerTest *NestedOptions `yaml:"pointer-test,omitempty"`
 }
 
 func DefaultOptions() Options {
@@ -69,6 +71,7 @@ func main() {
 	// Every field that is changed here will be represented in the YAML.
 	o.S = "something-different"
 	o.NO.F = 1.5
+	o.PointerTest = &NestedOptions{}
 
 	err := options.StripDefaults(&o, DefaultOptions())
 	if err != nil {
@@ -85,9 +88,10 @@ func main() {
 	// Now set every field with a zero value to its default counterpart.
 	// Every field that is set here will not have its default value.
 	o = Options{
-		I:  5,
-		IS: []int{-1},
-		NO: NestedOptions{F: 0.666},
+		I:           5,
+		IS:          []int{-1},
+		NO:          NestedOptions{F: 0.666},
+		PointerTest: &NestedOptions{F: 3.66},
 	}
 
 	err = options.SetDefaults(&o, DefaultOptions())

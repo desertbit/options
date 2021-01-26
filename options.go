@@ -75,7 +75,14 @@ func setStruct(vStr, defStr reflect.Value) (err error) {
 		// If the field is a struct again, set defaults on it as well.
 		vfStr := toStructOrStructPointer(vf)
 		if vfStr.IsValid() {
-			err = setStruct(vfStr, toStructOrStructPointer(df))
+			// Special case: Field that is a struct pointer.
+			// We must check here, if the default is nil and then prevent comparison.
+			dfStr := toStructOrStructPointer(df)
+			if !dfStr.IsValid() {
+				continue
+			}
+
+			err = setStruct(vfStr, dfStr)
 			if err != nil {
 				return
 			}
@@ -135,7 +142,14 @@ func stripStruct(vStr, defStr reflect.Value) (err error) {
 		// If the field is a struct again, strip it as well.
 		vfStr := toStructOrStructPointer(vf)
 		if vfStr.IsValid() {
-			err = stripStruct(vfStr, toStructOrStructPointer(df))
+			// Special case: Field that is a struct pointer.
+			// We must check here, if the default is nil and then prevent comparison.
+			dfStr := toStructOrStructPointer(df)
+			if !dfStr.IsValid() {
+				continue
+			}
+
+			err = stripStruct(vfStr, dfStr)
 			if err != nil {
 				return
 			}
